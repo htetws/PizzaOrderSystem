@@ -58,7 +58,17 @@
 
                         <li class="{{ url()->current() == route('category#list') ? 'active has-sub' : '' }}">
                             <a href="{{ route('category#list') }}">
-                                <i class="fas fa-chart-bar"></i>Category</a>
+                                <i class="fa-solid fa-certificate"></i>Category</a>
+                        </li>
+
+                        <li class="{{ url()->current() == route('product#list') ? 'active has-sub' : '' }}">
+                            <a href="{{ route('product#list') }}">
+                                <i class="fa-brands fa-product-hunt"></i>Product</a>
+                        </li>
+
+                        <li class="{{ url()->current() == route('admin#list') ? 'active has-sub' : '' }}">
+                            <a href="{{ route('admin#list') }}">
+                                <i class="fa-solid fa-circle-user"></i>Admin List</a>
                         </li>
                     </ul>
                 </nav>
@@ -121,7 +131,15 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="{{asset('admin/images/icon/avatar-01.jpg')}}" alt="John Doe" />
+                                            @if(Auth::user()->image != null)
+                                            <img src="{{ asset('storage/'. Auth::user()->image) }}" />
+                                            @else
+                                            @if (Auth::user()->gender == 'male')
+                                            <img class="img-thumbnail rounded-circle" src="https://cdn4.iconfinder.com/data/icons/e-commerce-181/512/477_profile__avatar__man_-512.png" />
+                                            @else
+                                            <img class="img-thumbnail rounded-circle" src="https://www.citypng.com/public/uploads/preview/black-round-female-user-profile-icon-transparent-png-11639961100dq0cerzqqm.png" />
+                                            @endif
+                                            @endif
                                         </div>
                                         <div class="content">
                                             <a class="js-acc-btn" href="#">{{ Auth::user()->name }}</a>
@@ -130,7 +148,15 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="{{asset('admin/images/icon/avatar-01.jpg')}}" alt="John Doe" />
+                                                        @if(Auth::user()->image != null)
+                                                        <img src="{{ asset('storage/'. Auth::user()->image) }}" />
+                                                        @else
+                                                        @if (Auth::user()->gender == 'male')
+                                                        <img class="img-thumbnail rounded-circle" src="https://cdn4.iconfinder.com/data/icons/e-commerce-181/512/477_profile__avatar__man_-512.png" />
+                                                        @else
+                                                        <img class="img-thumbnail rounded-circle" src="https://www.citypng.com/public/uploads/preview/black-round-female-user-profile-icon-transparent-png-11639961100dq0cerzqqm.png" />
+                                                        @endif
+                                                        @endif
                                                     </a>
                                                 </div>
                                                 <div class="content">
@@ -142,8 +168,14 @@
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="#">
+                                                    <a href="{{ route('admin#profile') }}">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
+                                                </div>
+                                            </div>
+                                            <div class="account-dropdown__body">
+                                                <div class="account-dropdown__item">
+                                                    <a href="{{ route('password#change') }}">
+                                                        <i class="zmdi zmdi-account"></i>Change Password</a>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer text-center">

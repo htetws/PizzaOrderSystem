@@ -20,13 +20,29 @@
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-        <div class="form-group">
-            <label>Phone Number</label>
-            <input class="au-input au-input--full @error('phone') is-invalid @enderror" type="number" name="phone" placeholder="eg.09xxx" value="{{ old('phone') }}">
-            @error('phone')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+
+        <div class="row">
+            <div class="col form-group">
+                <label>Phone Number</label>
+                <input class="au-input au-input--full @error('phone') is-invalid @enderror" type="number" name="phone" placeholder="eg.09xxx" value="{{ old('phone') }}">
+                @error('phone')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="col form-group">
+                <label>Gender</label>
+                <select name="gender" class="form-select au-input au-input--full @error('gender') is-invalid @enderror">
+                    <option value="" selected disabled>Choose gender ...</option>
+                    <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                    <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
+                </select>
+                @error('gender')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
+
         <div class="form-group">
             <label>Address</label>
             <input class="au-input au-input--full @error('address') is-invalid @enderror" type="text" name="address" placeholder="Address" value="{{ old('address') }}">

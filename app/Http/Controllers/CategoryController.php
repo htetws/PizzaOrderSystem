@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
+    //read
     public function list(Request $request)
     {
         $cats = Category::when(request('search'), function ($query) {
@@ -15,17 +16,23 @@ class CategoryController extends Controller
         })->orderBy('created_at', 'desc')->paginate(5);
         return view('admin.category.list', compact('cats'));
     }
+
+    //create
     public function create(Request $request)
     {
         $this->validation($request);
         Category::create(['cat_name' => $request->name]);
         return redirect()->route('category#list')->with('create_msg', 'new category created successfully.');
     }
+
+    //delete
     public function delete(Request $request)
     {
         Category::where('id', $request->id)->delete();
         return redirect()->route('category#list')->with('delete_msg', 'that category deleted successfully.');
     }
+
+    //update
     public function edit(Request $request)
     {
         $id = $request->id;
@@ -34,7 +41,9 @@ class CategoryController extends Controller
         return redirect()->route('category#list')->with('update_msg', 'that category updated successfully.');
     }
 
-    //private function
+
+    // <--------------- private functions ---------------->
+
     private function validation($request, $id = null) //initial value null
     {
         Validator::validate($request->all(), [

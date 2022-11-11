@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->integer('price');
             $table->integer('view_count')->default(0);
+            $table->integer('waiting_time');
             $table->timestamps();
         });
     }
