@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 //Auth Customization ...
@@ -29,18 +33,18 @@ Route::middleware('auth')->group(function () {
         //profile routes
         Route::prefix('profile')->group(function () {
             //password
-            Route::get('password/change', [AuthController::class, 'passwordChangePage'])->name('password#change');
-            Route::post('password/change', [AuthController::class, 'passwordChange'])->name('change#password');
+            Route::get('password/change', [AdminController::class, 'passwordChangePage'])->name('password#change');
+            Route::post('password/change', [AdminController::class, 'passwordChange'])->name('change#password');
 
             //profile
-            Route::get('detail', [AuthController::class, 'adminProfile'])->name('admin#profile');
-            Route::get('update', [AuthController::class, 'adminProfileUpdatePage'])->name('admin#profile#updatePage');
-            Route::post('update', [AuthController::class, 'adminProfileUpdate'])->name('admin#profile#update');
+            Route::get('detail', [AdminController::class, 'adminProfile'])->name('admin#profile');
+            Route::get('update', [AdminController::class, 'adminProfileUpdatePage'])->name('admin#profile#updatePage');
+            Route::post('update', [AdminController::class, 'adminProfileUpdate'])->name('admin#profile#update');
 
             //admin list
-            Route::get('admin/list', [AuthController::class, 'adminList'])->name('admin#list');
-            Route::delete('admin/delete', [AuthController::class, 'adminDelete'])->name('admin#delete');
-            Route::post('admin/role', [AuthController::class, 'roleChange'])->name('admin#role#change');
+            Route::get('admin/list', [AdminController::class, 'adminList'])->name('admin#list');
+            Route::delete('admin/delete', [AdminController::class, 'adminDelete'])->name('admin#delete');
+            Route::post('admin/role', [AdminController::class, 'roleChange'])->name('admin#role#change');
         });
 
         //product routes
@@ -53,10 +57,48 @@ Route::middleware('auth')->group(function () {
             Route::get('edit/{id}', [ProductController::class, 'editPage'])->name('product#edit');
             Route::post('update/{id}', [ProductController::class, 'productUpdate'])->name('product#update');
         });
+
+        //order routes
+        Route::prefix('order')->group(function () {
+            Route::get('list', [OrderController::class, 'listPage'])->name('admin#order#list');
+        });
+
+        //admin order list
+        Route::get('list', [OrderController::class, 'orderList'])->name('ajax#order#admin');
+        Route::get('ajax/status', [OrderController::class, 'status'])->name('ajax#status#admin');
     });
 
     //user route with middleware
-    Route::middleware('user')->group(function () {
-        Route::get('user/home', [AuthController::class, 'user_home_page'])->name('user#home');
+    Route::group(['middleware' => 'user', 'prefix' => 'user'], function () {
+
+        //home page
+        Route::get('home', [UserController::class, 'user_home_page'])->name('user#home');
+        //category filter
+        Route::get('filter/{id}', [UserController::class, 'categoryFilter'])->name('category#filter');
+        //Pizza Detail
+        Route::prefix('pizza')->group(function () {
+            Route::get('detail/{id}', [UserController::class, 'pizzaDetail'])->name('pizza#detail');
+        });
+        //pizza cart
+        Route::get('cart/list', [UserController::class, 'cartlist'])->name('pizza#cart');
+        //order history
+        Route::get('order/history', [UserController::class, 'orderHistory'])->name('order#history');
+        //password
+        Route::get('password/change', [UserController::class, 'changePasswordPage'])->name('user#password');
+        Route::post('password/change', [UserController::class, 'changePassword'])->name('user#change#password');
+
+        //profile
+        Route::get('profile', [UserController::class, 'profilePage'])->name('user#profile');
+        Route::get('profile/edit', [UserController::class, 'profileEdit'])->name('user#profile#editPage');
+        Route::post('profile/update', [UserController::class, 'profileUpdate'])->name('user#profile#update');
+
+        //Ajax Sorting Api
+        Route::prefix('ajax')->group(function () {
+            Route::get('sorting', [AjaxController::class, 'sorting'])->name('ajax#sorting');
+            Route::get('cart', [AjaxController::class, 'cart'])->name('ajax#cart');
+            Route::get('cartList', [AjaxController::class, 'orderList'])->name('ajax#orderList');
+            Route::get('remove', [AjaxController::class, 'remove'])->name('ajax#remove');
+            Route::get('clear', [AjaxController::class, 'clear'])->name('ajax#clear');
+        });
     });
 });

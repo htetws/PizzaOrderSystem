@@ -58,7 +58,7 @@
 
                         <li class="{{ url()->current() == route('category#list') ? 'active has-sub' : '' }}">
                             <a href="{{ route('category#list') }}">
-                                <i class="fa-solid fa-certificate"></i>Category</a>
+                                <i class="fa-solid fa-tags"></i>Category</a>
                         </li>
 
                         <li class="{{ url()->current() == route('product#list') ? 'active has-sub' : '' }}">
@@ -69,6 +69,11 @@
                         <li class="{{ url()->current() == route('admin#list') ? 'active has-sub' : '' }}">
                             <a href="{{ route('admin#list') }}">
                                 <i class="fa-solid fa-circle-user"></i>Admin List</a>
+                        </li>
+
+                        <li class="{{ url()->current() == route('admin#order#list') ? 'active has-sub' : '' }}">
+                            <a href="{{ route('admin#order#list') }}">
+                                <i class="fa-solid fa-list-check"></i>Order List</a>
                         </li>
                     </ul>
                 </nav>
@@ -206,9 +211,14 @@
 
     <!-- Jquery JS-->
     <script src="{{ asset('admin/vendor/jquery-3.2.1.min.js') }}"></script>
+
+    <!-- JavaScript Bundle with Popper -->
     <!-- Bootstrap JS-->
+
     <script src="{{ asset('admin/vendor/bootstrap-4.1/popper.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/bootstrap-4.1/bootstrap.min.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <!-- Vendor JS       -->
     <script src="{{ asset('admin/vendor/slick/slick.min.js') }}">
     </script>
@@ -232,6 +242,7 @@
     <script src="{{ asset('admin/js/main.js') }}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
     @yield('js')
 

@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $user->phone = '09768510897';
         $user->address = 'Yangon';
         $user->role = 'admin';
+        $user->gender = 'male';
         $user->password = Hash::make('kkc552001');
         $user->save();
     }

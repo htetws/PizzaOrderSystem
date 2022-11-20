@@ -1,10 +1,4 @@
-@extends('layout.master')
-
-@section('title','Profile Detail | Admin')
-
-@section('search')
-<h4>Admin Profile Page</h4>
-@endsection
+@extends('layout.user_master')
 
 @section('content')
 <div class="main-content mt-4">
@@ -23,12 +17,12 @@
                     <div class="col-4 offset-2">
                         <div class="image">
                             @if(Auth::user()->image != null)
-                            <img src="{{ asset('storage/'. Auth::user()->image) }}" />
-                            profilePage @else
-                            @if (Auth::user()->gender == 'male')
-                            <img class="img-thumbnail rounded-circle" src="https://cdn4.iconfinder.com/data/icons/e-commerce-181/512/477_profile__avatar__man_-512.png" />
+                            <img style="width:100%;min-height:16rem;object-fit:contain" src="{{ asset('storage/'. Auth::user()->image) }}" />
                             @else
-                            <img class="img-thumbnail rounded-circle" src="https://www.citypng.com/public/uploads/preview/black-round-female-user-profile-icon-transparent-png-11639961100dq0cerzqqm.png" />
+                            @if (Auth::user()->gender == 'male')
+                            <img style="height:250px;object-fit:cover" class="img-thumbnail rounded-circle" src="https://cdn4.iconfinder.com/data/icons/e-commerce-181/512/477_profile__avatar__man_-512.png" />
+                            @else
+                            <img style="height:250px;object-fit:cover" class="img-thumbnail rounded-circle" src="https://www.citypng.com/public/uploads/preview/black-round-female-user-profile-icon-transparent-png-11639961100dq0cerzqqm.png" />
                             @endif
                             @endif
                         </div>
@@ -61,7 +55,7 @@
                     </div>
 
                     <div class="col-12 text-center mt-5">
-                        <a href="{{ route('admin#profile#updatePage') }}" class="btn btn-primary"><i class="fa-solid fa-user-pen me-3"></i>Update Profile</a>
+                        <a href="{{ route('user#profile#editPage') }}" class="btn btn-primary"><i class="fa-solid fa-user-pen me-3"></i>Update Profile</a>
                     </div>
                 </div>
             </div>
