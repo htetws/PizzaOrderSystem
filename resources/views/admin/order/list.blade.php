@@ -84,7 +84,7 @@
                             <input type="hidden" value="{{$o->id}}" id="orderId">
                             <td class="col-1">{{ $o->user_id }}</td>
                             <td class="col-2">{{ $o->user_name }}</td>
-                            <td class="col-3"><span class="status--process">{{ $o->order_code }}</span></td>
+                            <td class="col-3"><a href="{{ route('admin#order#item',$o->order_code) }}" class="status--process"> {{ $o->order_code  }}</a></td>
                             <td class="col-2" id="price">{{ $o->total_price }} kyats</td>
                             <td class="col-2"><span>{{ $o->created_at->format('j F Y') }}</span></td>
 
@@ -202,7 +202,6 @@
                 },
                 dataType: 'json',
                 success: (data) => {
-                    // console.log(data);
                     window.location.reload();
                 }
             })

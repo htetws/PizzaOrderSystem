@@ -61,19 +61,30 @@
                                 <i class="fa-solid fa-tags"></i>Category</a>
                         </li>
 
-                        <li class="{{ url()->current() == route('product#list') ? 'active has-sub' : '' }}">
+                        <li style="border-bottom: 1px solid #C0C0C0;margin-bottom:10px" class="{{ url()->current() == route('product#list') ? 'active has-sub' : '' }}">
                             <a href="{{ route('product#list') }}">
                                 <i class="fa-brands fa-product-hunt"></i>Product</a>
                         </li>
 
-                        <li class="{{ url()->current() == route('admin#list') ? 'active has-sub' : '' }}">
+
+                        <li style="margin-top:10px" class="{{ url()->current() == route('admin#list') ? 'active has-sub' : '' }}">
                             <a href="{{ route('admin#list') }}">
                                 <i class="fa-solid fa-circle-user"></i>Admin List</a>
                         </li>
 
-                        <li class="{{ url()->current() == route('admin#order#list') ? 'active has-sub' : '' }}">
+                        <li style="border-bottom: 1px solid #C0C0C0" class="{{ url()->current() == route('user#list') ? 'active has-sub' : '' }}">
+                            <a href="{{ route('user#list') }}">
+                                <i class="fa-solid fa-users"></i></i>User List</a>
+                        </li>
+
+                        <li style="margin-top:10px" class="{{ url()->current() == route('admin#order#list') ? 'active has-sub' : '' }}">
                             <a href="{{ route('admin#order#list') }}">
                                 <i class="fa-solid fa-list-check"></i>Order List</a>
+                        </li>
+
+                        <li class="{{ url()->current() == route('admin#contact#list#page') ? 'active has-sub' : '' }}">
+                            <a href="{{ route('admin#contact#list#page') }}">
+                                <i class="fa-solid fa-comments"></i>Messages</a>
                         </li>
                     </ul>
                 </nav>

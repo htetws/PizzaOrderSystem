@@ -34,6 +34,7 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('user/css/style.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body>
@@ -54,9 +55,8 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="{{ route('user#home') }}" class="nav-item nav-link active">Home</a>
-                            <a href="#" class="nav-item nav-link">My Cart</a>
-                            <a href="#" class="nav-item nav-link">Contact</a>
+                            <a href="{{ route('user#home') }}" class="nav-item nav-link {{ request()->is('user/home') ? 'active' : '' }}">Home</a>
+                            <a href="{{ route('user#contact#page') }}" class="nav-item nav-link {{ request()->is('user/contact') ? 'active' : '' }}">Contact</a>
                         </div>
 
                         <div class="navbar-nav col-8 d-flex align-items-center justify-content-end">
@@ -230,6 +230,7 @@
     <!-- Template Javascript -->
     <script src="{{ asset('user/js/main.js') }}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <!-- JavaScript Bundle with Popper -->
 
     @yield('json')

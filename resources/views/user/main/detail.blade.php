@@ -46,7 +46,7 @@
                         <small class="fas fa-star-half-alt"></small>
                         <small class="far fa-star"></small>
                     </div>
-                    <p class="pt-1 text-muted"><i class="fa solid fa-eye me-2"></i>{{ $pizza->view_count }}</p>
+                    <p class="pt-1 text-muted"><i class="fa solid fa-eye me-2"></i>{{ $pizza->view_count + 1 }}</p>
                 </div>
                 <h3 class="font-weight-semi-bold mb-4">{{ $pizza->price }} kyats</h3>
                 <hr>
@@ -147,6 +147,17 @@
 
 <script>
     $(document).ready(function() {
+
+        $.ajax({
+            type: 'get',
+            url: "{{ route('ajax#view') }}",
+            data: {
+                'postId': $('#pizzaId').val(),
+            },
+            success: (data) => {
+                // console.log(data);
+            }
+        })
 
         $('#cartBtn').click(function() {
             $object = {

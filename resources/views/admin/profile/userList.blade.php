@@ -3,7 +3,7 @@
 @section('title','Admin List')
 
 @section('search')
-<form class="form-header" action="{{ route('admin#list') }}">
+<form class="form-header" action="{{ route('user#list') }}">
     <input class="au-input au-input--lg" type="text" name="search" placeholder="Search for datas &amp; reports..." value="{{ request('search') }}" />
     <button class="au-btn--submit ml-2" type="submit">
         <i class="zmdi zmdi-search"></i>
@@ -16,7 +16,6 @@
     <div class="section__content section__content--p30">
         <div class="container-fluid">
             <div class="col-md-12">
-
                 @if(session('change_role'))
                 <div class="">
                     <div class="col-5 offset-7 alert alert-success alert-dismissible fade show mb-5" role="alert">
@@ -25,16 +24,6 @@
                     </div>
                 </div>
                 @endif
-
-                @if(session('product_delete'))
-                <div class="">
-                    <div class="col-5 offset-7 alert alert-warning alert-dismissible fade show mb-5" role="alert">
-                        <strong>Oops...</strong> {{ session('product_delete') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-                @endif
-
                 <!-- DATA TABLE -->
                 <div class="table-data__tool">
                     <div class="table-data__tool-left">
@@ -58,73 +47,52 @@
                 </div>
                 <div class="table-responsive table-responsive-data2">
 
-                    @if ($admins->total() != 0)
+                    @if ($users->total() != 0)
                     <table class="table table-data2">
                         <thead>
                             <tr>
                                 <th class="col-2"><span>image</span></th>
                                 <th class="col-2">Name</th>
                                 <th class="col-2">email</th>
+                                <th class="col-2">gender</th>
                                 <th class="col-2">phone</th>
-                                <th class="col-2">address</th>
-                                <th class="col-2">Role</th>
-                                <th class="text-primary"><i class="fa-solid fa-database me-3"></i>{{ $admins->total() }}</th>
-
+                                <th class="text-primary"><i class="fa-solid fa-database me-3"></i>{{ $users->total() }}</th>
+                                <th class="col-2">Setting</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($admins as $admin)
+                            @foreach ($users as $user)
                             <tr class="tr-shadow">
-
-
-
                                 <td class="col-2">
-                                    @if ($admin->image != null)
-                                    <img src="{{ asset('storage/'.$admin->image) }}" style="height:60px;object-fit:cover;" class="rounded-3">
+                                    @if ($user->image != null)
+                                    <img src="{{ asset('storage/'.$user->image) }}" style="height:60px;object-fit:cover;" class="rounded-3">
                                     @else
-                                    @if ($admin->gender == 'male')
+                                    @if ($user->gender == 'male')
                                     <img src="https://static.vecteezy.com/system/resources/previews/002/318/271/original/user-profile-icon-free-vector.jpg" alt="" style="height:60px;object-fit:cover;" class="rounded-3">
                                     @else
                                     <img src="https://images.assetsdelivery.com/compings_v2/thesomeday123/thesomeday1231712/thesomeday123171200008.jpg" alt="" style="height:60px;object-fit:cover;" class="rounded-3">
                                     @endif
                                     @endif
                                 </td>
+                                <input type="hidden" id="userid" value="{{ $user->id }}">
+                                <td class="desc col-2 font-weight-bold">{{ $user->name }}</td>
+                                <td class="col-2"><span class="ms-1 status--process">{{ $user->email }}</span></td>
+                                <td class="col-2">{{ $user->gender }}</td>
+                                <td class="col-2">{{ $user->phone }}</td>
+                                <!-- <td class="col-2"><span>{{ $user->address }}</span></td> -->
 
-                                <input type="hidden" id="adminid" value="{{ $admin->id }}">
-
-                                <td class="desc col-2 font-weight-bold">{{ $admin->name }}</td>
-                                <td class="col-2"><span class="ms-1 status--process">{{ $admin->email }}</span></td>
-                                <td class="col-2">{{ $admin->phone }}</td>
-                                <td class="col-2"><span>{{ $admin->address }}</span></td>
-
-                                <td>
-                                    @if ($admin->id == Auth::user()->id)
-                                    <h4>{{ ucfirst($admin->role) }}</h4>
-                                    @else
-                                    <span class="col-2">
-                                        <select name="role" id="adminRole" class="form-select">
-
-                                            <option value="admin" {{ old('role',$admin->role == 'admin' ? 'selected' : '' ) }}>Admin</option>
-                                            <option value="user" {{ old('role',$admin->role == 'user' ? 'selected' : '' ) }}>User</option>
-
-                                        </select>
-                                    </span>
-                                    @endif
-
-
+                                <td class="col-2">
+                                    <select name="userList" id="userList" class="form-select">
+                                        <option value="admin" {{ old('userList',$user->role) == 'admin' ? "selected" : '' }}>Admin</option>
+                                        <option value="user" {{ old('userList',$user->role) == 'user' ? "selected" : '' }}>User</option>
+                                    </select>
                                 </td>
 
                                 <td class="col-2">
-                                    <div class="table-data-feature w-100 justify-content-around">
-
-                                        @if (Auth::user()->id != $admin->id)
-                                        <button class="item ms-2" data-toggle="tooltip" data-placement="top" title="Delete" id="del" data-bs-target="#delete_category" data-bs-toggle="modal" data-id="{{ $admin->id }}">
-                                            <i class="zmdi zmdi-delete text-danger"></i>
-                                        </button>
-                                        @endif
-
-                                    </div>
+                                    <a href="{{ route('user#edit#page',$user->id) }}"><i class="fa-regular fa-pen-to-square fs-5 text-primary"></i></a>
+                                    <i data-bs-target="#delete_user" data-bs-toggle="modal" class="fa-solid fa-trash-can fs-5 mt-2 text-danger deleteBtn"></i></a>
                                 </td>
+
                             </tr>
                             <tr class="spacer"></tr>
                             @endforeach
@@ -138,13 +106,14 @@
 
                 </div>
                 <!-- END DATA TABLE -->
-                {{ $admins->appends(request()->query())->links() }}
+                {{ $users->appends(request()->query())->links() }}
             </div>
         </div>
     </div>
 </div>
-<!-- Delete Modal -->
-<div class="modal fade" id="delete_category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+//user delete
+<div class="modal fade" id="delete_user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -156,9 +125,9 @@
             </div>
 
             <div class="modal-footer">
-                <form action="{{ route('admin#delete') }}" method="post">
+                <form action="{{ route('user#delete') }}" method="post">
                     @csrf @method('delete')
-                    <input type="number" value="" class="here" name="id" hidden>
+                    <input type="hidden" value="" class="user_id form-control" name="userid">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle</button>
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
@@ -168,29 +137,26 @@
 </div>
 @endsection
 
-
-
 @section('js')
 <script>
-    // delete category
-    $(document).on('click', '#del', function() {
-        var id = $(this).data('id');
-        $('.here').val(id);
-    });
+    //user delete with modal
+    $(document).on('click', '.deleteBtn', function() {
+        $parentNode = $(this).parents('tbody tr');
+        $('.user_id').val($parentNode.find('#userid').val());
+    })
 
-    //change role with ajax
-    $(document).on('change', '#adminRole', function() {
-        $currentValue = $(this).val();
-
+    //ajax user role change
+    $(document).on('change', '#userList', function() {
+        $selectValue = $(this).val();
         $parentNode = $(this).parents('tr');
-        $adminid = $parentNode.find('#adminid').val();
+        $userid = $parentNode.find('#userid').val();
 
         $.ajax({
             type: 'get',
-            url: "{{route('admin#role#ajax')}}",
+            url: "{{route('user#role#ajax')}}",
             data: {
-                'admin_id': $adminid,
-                'role': $currentValue
+                'user_id': $userid,
+                'role': $selectValue
             },
             success: (data) => {
                 window.location.reload();
@@ -198,14 +164,5 @@
 
         })
     })
-
-    //alert animation
-    $(document).ready(function() {
-        $('.alert').delay(3000).animate({
-            right: '-100%'
-        }, 1500, function() {
-            $(this).remove()
-        });
-    });
 </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderList;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -39,5 +40,15 @@ class OrderController extends Controller
     {
         $data = Order::where('id', $request->id)->update(['status' => $request->status]);
         return response()->json($data, 200);
+    }
+
+    //find item with order code
+    public function itemPage($order_code)
+    {
+        $order = Order::where('order_code', $order_code)->first();
+        $orderlists = OrderList::select('order_lists.*', 'users.name as user_name')
+            ->leftJoin('users', 'users.id', 'order_lists.user_id')
+            ->where('order_code', $order_code)->get();
+        return view('admin.order.item', compact('orderlists', 'order'));
     }
 }

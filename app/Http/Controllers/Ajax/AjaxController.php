@@ -22,8 +22,10 @@ class AjaxController extends Controller
 
         if ($sorting == 'desc') {
             $data = Product::orderBy('created_at', 'desc')->get();
-        } else {
+        } elseif ($sorting == 'asc') {
             $data = Product::orderBy('created_at', 'asc')->get();
+        } else {
+            $data = Product::orderBy('view_count', 'desc')->get();
         }
         return response()->json($data, 200);
     }
@@ -72,6 +74,15 @@ class AjaxController extends Controller
 
         Cart::where('product_id', $productId)->where('id', $primaryKey)->where('user_id', Auth::user()->id)->delete();
         return response()->json(['message' => 'removed'], 200);
+    }
+
+    //view_count
+    public function viewCount(Request $request)
+    {
+        $product = Product::where('id', $request->postId)->first();
+
+        $product->view_count += 1;
+        $product->save();
     }
 
     //clear

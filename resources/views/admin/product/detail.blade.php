@@ -17,7 +17,7 @@
                 </div>
                 <div class="main-image position-relative">
                     <img src="{{ asset('storage/'.$product->image) }}" class="img-thumbnail rounded-4" style="
-                    width:350px;height:250px;object-fit:cover;position:absolute;top:-130px;left:310px;margin:auto">
+                    width:350px;height:250px;object-fit:cover;position:absolute;top:-130px;left:0;right:0;margin-left:auto;margin-right:auto">
                 </div>
                 <div class="d-flex justify-content-between px-2 align-items-center pt-4">
                     <div class="">

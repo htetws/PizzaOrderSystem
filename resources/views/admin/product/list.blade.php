@@ -90,9 +90,9 @@
                             @foreach ($products as $pd)
                             <tr class="tr-shadow">
                                 <td class="col-2">
-                                    <img src="{{ asset('storage/'.$pd->image) }}" style="height:60px;object-fit:cover;" class="img-thumbnail rounded-3">
+                                    <img src="{{ asset('storage/'.$pd->image) }}" style="width:70px;height:70px;object-fit:cover;" class="img-fluid rounded-2">
                                 </td>
-                                <td class="desc col-2 font-weight-bold">{{ $pd->name }}</td>
+                                <td class="desc col-3 font-weight-bold">{{ $pd->name }}</td>
                                 <td class="col-2"><span class="ms-1 status--process">{{ $pd->cat_name }}</span></td>
                                 <td class="col-2">{{ $pd->price }}</td>
                                 <td class="col-1"><span class="ms-2">{{ $pd->view_count }}</span></td>
@@ -101,7 +101,7 @@
                                     <span class="status--process">Processed</span>
                                 </td> -->
 
-                                <td class="col-3">
+                                <td class="col-2">
                                     <div class="table-data-feature w-100 justify-content-around">
                                         <a href="{{ route('product#detail',$pd->id) }}" class="item" data-toggle="tooltip" data-placement="top" title="View">
                                             <i class="fa-solid fa-eye text-success"></i>
@@ -112,9 +112,7 @@
                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="del" data-bs-target="#delete_category" data-bs-toggle="modal" data-id="{{ $pd->id }}">
                                             <i class="zmdi zmdi-delete text-danger"></i>
                                         </button>
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                            <i class="zmdi zmdi-more"></i>
-                                        </button>
+
                                     </div>
                                 </td>
                             </tr>
@@ -135,8 +133,6 @@
         </div>
     </div>
 </div>
-@endsection
-
 <!-- Delete Modal -->
 <div class="modal fade" id="delete_category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -160,7 +156,7 @@
         </div>
     </div>
 </div>
-
+@endsection
 
 @section('js')
 <script>

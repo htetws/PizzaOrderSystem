@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Contact;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -120,6 +121,7 @@ class UserController extends Controller
         $order = Order::where('user_id', Auth::user()->id)->paginate(5);
         return view('user.order.list', compact('order'));
     }
+
 
     //private functions
 

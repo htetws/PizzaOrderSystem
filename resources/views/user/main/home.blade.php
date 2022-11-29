@@ -61,7 +61,8 @@
                 <div class="me-2">
                     <div class="col-12">
                         <select name="sorting" id="sorting" class="form-select">
-                            <option selected disabled value="">Sort by</option>
+                            <option selected class="d-none" value="">Sort by</option>
+                            <option value="view">Most View</option>
                             <option value="asc">Ascending</option>
                             <option value="desc">Descending</option>
                         </select>
@@ -165,6 +166,46 @@
                     dataType: 'json',
                     data: {
                         'sorting': 'desc'
+                    },
+                    success: function(data) {
+                        $list = "";
+                        for ($i = 0; $i < data.length; $i++) {
+                            $list += `<div class="col-lg-4 col-md-6 col-sm-6 pb-1" id="product">
+                                    <div class="product-item bg-light mb-4">
+                                    <div class="product-img position-relative overflow-hidden">
+                                    <img class="img-fluid w-100" src="{{ asset('storage/${data[$i].image}') }}" style="height:14rem;object-fit:contain">
+                                    <div class="product-action">
+                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href="{{ url('user/pizza/detail/${data[$i].id}') }}"><i class="fa-solid fa-circle-info"></i></a>
+                                    </div>
+                                    </div>
+                                    <div class="text-center py-4">
+                                    <a class="h5 text-decoration-none text-truncate" href="">${data[$i].name}</a>
+                                    <div class="d-flex align-items-center justify-content-center mt-2">
+                                        <h6 class="text-muted">${data[$i].price} kyats</h6>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center mb-1">
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </div>`;
+                        }
+
+                        $('#myList').html($list);
+                    }
+                })
+            } else {
+                $.ajax({
+                    type: 'get',
+                    url: "{{ route('ajax#sorting') }}",
+                    dataType: 'json',
+                    data: {
+                        'sorting': 'view'
                     },
                     success: function(data) {
                         $list = "";

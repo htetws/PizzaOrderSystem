@@ -63,23 +63,26 @@
                         </button>
                     </div>
                 </div>
-                <div class="table-responsive table-responsive-data2">
+                <div class="table-responsive table-responsive-data2 col-12 offset-0">
 
                     @if ($cats->total() != 0)
                     <table class="table table-data2">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th class="col-2">id</th>
-                                <th class="col-3">Category Name</th>
+                                <th class="col-2">Category</th>
                                 <th>Created At</th>
                                 <th>total item : <span style="font-size: 1.2rem;" class="text-success ms-3">{{ $cats->total() }}<i class="fa-solid fa-database ms-2"></i></span></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($cats as $cat)
                             <tr class="tr-shadow">
+                                <td></td>
                                 <td class="col-2">{{ $cat->id }}</td>
-                                <td class="desc col-3 font-weight-bold">{{ $cat->cat_name }}</td>
+                                <td class="desc col-2 font-weight-bold">{{ $cat->cat_name }}</td>
                                 <td>
                                     <span class="block-email">{{ $cat->created_at->format('j F y  |  h : m : s A') }}</span>
                                 </td>
@@ -90,22 +93,19 @@
                                 </td>
                                 <td>$679.00</td> -->
 
-                                <td>
+                                <td class="col-2">
                                     <div class="table-data-feature w-100 justify-content-around">
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                                            <i class="fa-solid fa-eye text-success"></i>
-                                        </button>
+
                                         <button class="item" data-toggle="tooltip" id="edit" data-placement="top" title="Edit" data-bs-toggle="modal" data-bs-target="#edit_category" data-id="{{ $cat->id }}" data-name="{{ $cat->cat_name }}">
                                             <i class="zmdi zmdi-edit text-primary"></i>
                                         </button>
                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="del" data-bs-target="#delete_category" data-bs-toggle="modal" data-id="{{ $cat->id }}">
                                             <i class="zmdi zmdi-delete text-danger"></i>
                                         </button>
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                            <i class="zmdi zmdi-more"></i>
-                                        </button>
+
                                     </div>
                                 </td>
+                                <td></td>
                             </tr>
                             <tr class="spacer"></tr>
                             @endforeach
@@ -124,8 +124,6 @@
         </div>
     </div>
 </div>
-@endsection
-
 <!-- Create Modal -->
 <div class="modal fade" id="create_category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -211,6 +209,7 @@
         </div>
     </div>
 </div>
+@endsection
 
 @section('js')
 <script>

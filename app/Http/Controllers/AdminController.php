@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Order;
+use App\Models\OrderList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +26,79 @@ class AdminController extends Controller
         })->where('role', 'admin')->paginate(4);
 
         return view('admin.profile.adminList', compact('admins'));
+    }
+
+    //user list
+    public function userList()
+    {
+        $users = User::when(request('search'), function ($query) {
+            $query
+                ->orWhere('name', 'like', '%' . request('search') . '%')
+                ->orWhere('email', 'like', '%' . request('search') . '%')
+                ->orWhere('gender', 'like', '%' . request('search') . '%')
+                ->orWhere('address', 'like', '%' . request('search') . '%')
+                ->orWhere('phone', 'like', '%' . request('search') . '%');
+        })->where('role', 'user')->paginate(4);
+        return view('admin.profile.userList', compact('users'));
+    }
+
+    //user role ajax
+    public function userRoleAjax(Request $request)
+    {
+        User::where('id', $request->user_id)->update(['role' => $request->role]);
+        return response()->json(200);
+    }
+
+    //user delete
+    public function userDelete(Request $request)
+    {
+        User::where('id', $request->userid)->delete();
+
+        OrderList::where('user_id', $request->userid)->delete();
+
+        Order::where('user_id', $request->userid)->delete();
+
+        return back()->with('change_role', 'this account deleted successfully.');
+    }
+
+    //user edit page
+    public function userEditPage($id)
+    {
+        $user = User::where('id', $id)->first();
+        return view('admin.profile.useredit', compact('user'));
+    }
+
+    //user edit
+    public function userEdit(Request $request)
+    {
+        $this->profileValidation($request);
+        $query = $this->profileQuery($request);
+
+        $dbImage = User::select('image')->where('id', $request->id)->first();
+        $dbImage = $dbImage->image;
+
+        if ($request->hasFile('image')) {
+
+            if ($dbImage != null) {
+                Storage::delete('public/' . $dbImage);
+            }
+
+            $imgName = uniqid() . $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('public', $imgName);
+            $query['image'] = $imgName;
+        }
+
+        User::where('id', $request->userid)->update($query);
+
+        return redirect()->route('user#list')->with('update_success', 'profile updated successfully.');
+    }
+
+    //admin ajax role change
+    public function adminRoleAjax(Request $request)
+    {
+        logger($request->all());
+        User::where('id', $request->admin_id)->update(['role' => $request->role]);
+        return response()->json(200);
     }
 
     //admin delete

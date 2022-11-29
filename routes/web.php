@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\User\UserController;
@@ -45,6 +46,14 @@ Route::middleware('auth')->group(function () {
             Route::get('admin/list', [AdminController::class, 'adminList'])->name('admin#list');
             Route::delete('admin/delete', [AdminController::class, 'adminDelete'])->name('admin#delete');
             Route::post('admin/role', [AdminController::class, 'roleChange'])->name('admin#role#change');
+            Route::get('admin/role/ajax', [AdminController::class, 'adminRoleAjax'])->name('admin#role#ajax');
+
+            //user list
+            Route::get('user/list', [AdminController::class, 'userList'])->name('user#list');
+            Route::delete('user/delete', [AdminController::class, 'userDelete'])->name('user#delete');
+            Route::get('user/edit/page/{id}', [AdminController::class, 'userEditPage'])->name('user#edit#page');
+            Route::post('user/edit', [AdminController::class, 'userEdit'])->name('user#edit');
+            Route::get('user/role/ajax', [AdminController::class, 'userRoleAjax'])->name('user#role#ajax');
         });
 
         //product routes
@@ -61,11 +70,15 @@ Route::middleware('auth')->group(function () {
         //order routes
         Route::prefix('order')->group(function () {
             Route::get('list', [OrderController::class, 'listPage'])->name('admin#order#list');
+            Route::get('items/{order_code}', [OrderController::class, 'itemPage'])->name('admin#order#item');
         });
 
         //admin order list
         Route::get('list', [OrderController::class, 'orderList'])->name('ajax#order#admin');
         Route::get('ajax/status', [OrderController::class, 'status'])->name('ajax#status#admin');
+
+        //Contact List
+        Route::get('contact/list', [ContactController::class, 'contactListPage'])->name('admin#contact#list#page');
     });
 
     //user route with middleware
@@ -92,6 +105,10 @@ Route::middleware('auth')->group(function () {
         Route::get('profile/edit', [UserController::class, 'profileEdit'])->name('user#profile#editPage');
         Route::post('profile/update', [UserController::class, 'profileUpdate'])->name('user#profile#update');
 
+        //Contact route
+        Route::get('contact', [ContactController::class, 'contactPage'])->name('user#contact#page');
+        Route::post('contact', [ContactController::class, 'contact'])->name('user#contact');
+
         //Ajax Sorting Api
         Route::prefix('ajax')->group(function () {
             Route::get('sorting', [AjaxController::class, 'sorting'])->name('ajax#sorting');
@@ -99,6 +116,7 @@ Route::middleware('auth')->group(function () {
             Route::get('cartList', [AjaxController::class, 'orderList'])->name('ajax#orderList');
             Route::get('remove', [AjaxController::class, 'remove'])->name('ajax#remove');
             Route::get('clear', [AjaxController::class, 'clear'])->name('ajax#clear');
+            Route::get('view', [AjaxController::class, 'viewCount'])->name('ajax#view');
         });
     });
 });
