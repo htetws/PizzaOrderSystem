@@ -79,6 +79,7 @@ Route::middleware('auth')->group(function () {
 
         //Contact List
         Route::get('contact/list', [ContactController::class, 'contactListPage'])->name('admin#contact#list#page');
+        Route::get('contact/remove', [ContactController::class, 'removeAll'])->name('ajax#contact#removeAll');
     });
 
     //user route with middleware

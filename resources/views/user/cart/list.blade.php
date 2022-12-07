@@ -4,8 +4,6 @@
 
 @section('content')
 
-
-
 <!-- Cart Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -157,8 +155,13 @@
                         },
                         dataType: 'json',
                         success: (data) => {
-                            console.log(data);
-                            window.location.replace("{{ route('user#home') }}");
+                            // console.log(data);
+                            if (data) {
+                                toastr.success('order done.wait for accepting your order from admin team.')
+                            }
+                            setTimeout(function() {
+                                window.location.replace("{{ route('user#home') }}");
+                            }, 2500)
                         }
                     })
                 }
@@ -166,8 +169,6 @@
                 alert("choose atleast one item plz.")
                 window.location.href = "{{route('user#home')}}"
             }
-
-
 
         })
     })

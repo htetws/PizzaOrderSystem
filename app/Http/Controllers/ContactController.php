@@ -29,7 +29,16 @@ class ContactController extends Controller
             'message' => $request->message,
         ]);
 
-        return back()->with('success', 'Sent message successfully.');
+        return redirect()->route('user#home')->with('success', 'message sent successfully.');
+    }
+
+    //ajax Remove all
+    public function removeAll(Request $request)
+    {
+        if ($request->status == 'removeAll') {
+            Contact::truncate();
+        }
+        return response()->json(['success' => 'deleted'], 200);
     }
 
     //admin contact list page

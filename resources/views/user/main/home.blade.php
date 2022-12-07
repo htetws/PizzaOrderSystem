@@ -3,6 +3,14 @@
 @section('title','Pizza | Home')
 
 @section('category')
+@if(session('success'))
+<div class="">
+    <div class="col-5 offset-7 alert alert-success alert-dismissible fade show mb-5" role="alert">
+        <strong>Yahoo...</strong> {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+@endif
 <div class="col-lg-3 col-md-4">
     <!-- Price Start -->
     <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Pizza Categories</span></h5>
@@ -25,7 +33,7 @@
     </div>
 
     <div class="">
-        <button class="btn btn btn-warning w-100">Order</button>
+        <button class="btn btn btn-warning w-100 active" disabled>Order</button>
     </div>
 
 </div>

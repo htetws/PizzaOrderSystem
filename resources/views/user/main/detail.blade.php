@@ -173,7 +173,13 @@
                 success: (data) => {
                     $total = data.length;
                     $('#cartlist').text($total)
-                    // alert("Added to cart successfully.")
+                    if (data) {
+                        toastr.success('added to the cart.');
+                        setTimeout(function() {
+                            window.location.href = "{{ route('user#home') }}"
+                        }, 2000)
+                    }
+
                 }
             })
         })

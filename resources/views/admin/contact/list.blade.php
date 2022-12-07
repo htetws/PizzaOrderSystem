@@ -30,8 +30,8 @@
                         </div>
                     </div>
                     <div class="table-data__tool-right">
-                        <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-bs-toggle="modal" data-bs-target="#create_category">
-                            <i class="fa-solid fa-circle-plus mr-2"></i>add category
+                        <button class="btn btn-danger" id="deleteAllMessage">
+                            <i class="fa-solid fa-remove mr-2"></i>Delete All
                         </button>
                         <button class="au-btn au-btn-icon au-btn--green au-btn--small">
                             CSV download
@@ -67,12 +67,6 @@
                                 <td>
                                     <span class="block-email">{{ $msg->created_at->format('d F,  Y') }}</span>
                                 </td>
-
-                                <!--
-                                <td>
-                                    <span class="status--process">Processed</span>
-                                </td>
-                                <td>$679.00</td> -->
                                 <td class="col-2">
                                     <div class="table-data-feature w-100 justify-content-around">
                                         <a href="#" class="viewContact" data-message="{{ $msg->message }}" data-bs-target="#contactModal" data-bs-toggle="modal" class="item" data-toggle="tooltip" data-placement="top" title="View">
@@ -129,6 +123,23 @@
             $('.modalEmail').text($parentNode.find('#email').text());
             $('.modalMessage').text($(this).data('message'));
         })
+
+        if ($('table').length == 0) {
+            $('#deleteAllMessage').attr('disabled', 'disabled')
+        } else {
+            $('#deleteAllMessage').click(function() {
+                if (confirm('Are you sure want to deleted all messages.')) {
+                    $('table').remove();
+                    $.get("{{ route('ajax#contact#removeAll') }}", {
+                        'status': 'removeAll'
+                    }, (data) => {
+                        toastr.success('deleted all messages.');
+                    })
+                }
+            })
+        }
+
+
     })
 </script>
 @endsection

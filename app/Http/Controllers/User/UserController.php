@@ -41,7 +41,7 @@ class UserController extends Controller
     public function pizzaDetail($id)
     {
         $pizza = Product::where('id', $id)->first();
-        $pizzaList = Product::get();
+        $pizzaList = Product::where('id', '!=', $id)->get();
         $cart = Cart::where('user_id', Auth::user()->id)->get();
         return view('user.main.detail', compact('pizza', 'pizzaList', 'cart'));
     }
